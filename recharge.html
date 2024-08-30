@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investissement</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .content-container {
+            max-width: 800px;
+            margin: 50px auto;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .center-content {
+            text-align: center;
+            background-color: #dc3545;
+            color: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        button {
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button.soumettre {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-copier {
+            border-radius: 50px;
+        }
+    </style>
+    <script src="investissements.js"></script>
+    <script src="javas.js"></script>
+</head>
+
+<body>
+
+    <div class="content-container">
+
+        <div class="center-content">
+            <h1>Votre montant de recharge :</h1>
+            <input type="text" class="form-control" id="recharge" placeholder="Entrez le montant">
+            <br>
+            <i>Choisissez votre réseau :</i>
+            <select class="form-control" id="reseau">
+                <option value="MTN CAMEROUN">MTN CAMEROUN</option>
+                <option value="ORANGE CAMEROUN">ORANGE CAMEROUN</option>
+            </select>
+            <p id="choix-reseau" class="mt-3"></p>
+        </div>
+
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>Numéro de dépôt MTN :</h3>
+                <h4 id="numero-mtn">652830100</h4>
+                <button id="copie-numero-mtn" class="btn btn-primary btn-copier">Copier</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>Numéro de dépôt ORANGE :</h3>
+                <h4 id="numero-orange">691452086</h4>
+                <button id="copie-numero-orange" class="btn btn-warning btn-copier">Copier</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>Nom du compte :</h3>
+                <h4>Marie Françoise</h4>
+            </div>
+        </div>
+
+        <h2 class="text-center my-4"><marquee>Veuillez entrer le bon identifiant (ID) de la transaction</marquee></h2>
+
+        <div class="form-group text-center">
+            <input type="text" class="form-control w-50 mx-auto" placeholder="Entrez l'ID de la transaction" id="transaction-id">
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-success soumettre" id="soumis">Soumettre</button>
+            <button class="btn btn-secondary soumettre" id="projet">Projets en cours</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Script pour afficher le réseau choisi
+        document.getElementById('reseau').addEventListener('change', function () {
+            var reseauChoisi = this.value;
+            document.getElementById('choix-reseau').textContent = 'Vous avez choisi le réseau : ' + reseauChoisi;
+        });
+
+        // Script pour copier le numéro MTN
+        document.getElementById('copie-numero-mtn').addEventListener('click', function () {
+            var numeroMTN = '652830100';
+            navigator.clipboard.writeText(numeroMTN);
+            alert('Numéro MTN copié : ' + numeroMTN);
+        });
+
+        // Script pour copier le numéro ORANGE
+        document.getElementById('copie-numero-orange').addEventListener('click', function () {
+            var numeroOrange = '691452086';
+            navigator.clipboard.writeText(numeroOrange);
+            alert('Numéro ORANGE copié : ' + numeroOrange);
+        });
+
+        // Script pour vérifier l'ID de la transaction
+        document.getElementById('soumis').addEventListener('click', function () {
+            var idTransaction = document.getElementById('transaction-id').value;
+            var montantRecharge = document.getElementById('recharge').value;
+            var reseauChoisi = document.getElementById('reseau').value;
+
+            var validTransactions = {
+                '652830100': 'MTN CAMEROUN',
+                '691452086': 'ORANGE CAMEROUN'
+            };
+
+            var message;
+            if (idTransaction === montantRecharge + validTransactions[reseauChoisi]) {
+                message = 'ID de transaction correct : soumission réussie.';
+            } else {
+                message = 'ID incorrect, veuillez vérifier les informations fournies.';
+            }
+            alert(message);
+        });
+
+        // Script pour afficher les projets en cours
+        document.getElementById('projet').addEventListener('click', function () {
+            var projetsEnCours = []; // Supposons que c'est là où sont stockés les projets du client
+
+            if (projetsEnCours.length > 0) {
+                alert('Projets en cours : ' + projetsEnCours.join(', '));
+            } else {
+                alert('Aucun projet en cours.');
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

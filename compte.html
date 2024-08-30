@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gestion des Transactions</title>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<style>
+		body {
+			background-color: #f8f9fa;
+		}
+		.container-custom {
+			margin-top: 50px;
+			background-color: #fff;
+			padding: 30px;
+			border-radius: 15px;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		}
+		.header, .footer {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+		.retrait {
+			border-left: 5px solid #dc3545;
+			padding-left: 15px;
+			background-color: #f8d7da;
+			color: #721c24;
+		}
+		.depot {
+			border-left: 5px solid #0d6efd;
+			padding-left: 15px;
+			background-color: #cfe2ff;
+			color: #084298;
+		}
+		.button-custom {
+			width: 100%;
+			margin-top: 20px;
+		}
+		.footer img {
+			width: 80px;
+			border-radius: 50%;
+		}
+		.marquee {
+			color: #17a2b8;
+			font-weight: bold;
+		}
+		.input-group-text-custom {
+			background-color: #0d6efd;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="container-custom">
+			<div class="header">
+				<h1 class="text-primary">Gestion des Transactions</h1>
+			</div>
+
+			<!-- Solde et Retrait -->
+			<div class="row mb-4">
+				<div class="col-md-6 mb-3">
+					<label for="solde" class="form-label">Solde du compte</label>
+					<div class="input-group">
+						<span class="input-group-text input-group-text-custom">XAF</span>
+						<input type="text" id="solde" class="form-control" disabled>
+					</div>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label for="retrait-numero" class="form-label">Numéro de retrait</label>
+					<input type="text" id="retrait-numero" class="form-control" placeholder="Entrez votre numéro">
+				</div>
+				<div class="col-md-6 mb-3">
+					<label for="retrait-montant" class="form-label">Montant du retrait</label>
+					<input type="text" id="retrait-montant" class="form-control" placeholder="Entrez le montant">
+				</div>
+				<div class="col-md-6 d-grid">
+					<button id="retirer-btn" class="btn btn-danger button-custom">Retirer</button>
+				</div>
+				<p id="message-retrait" class="text-center mt-3"></p>
+			</div>
+
+			<!-- Section Retrait -->
+			<div class="retrait p-3 mb-4">
+				<h3 class="text-center">Informations Retrait</h3>
+				<ol>
+					<li>Le retrait minimal est de 3000 XAF.</li>
+					<li>Les retraits se font du lundi au vendredi.</li>
+					<li>Pas de frais de retrait.</li>
+					<li>Les retraits se font entre 9h et 19h30.</li>
+					<li>Vos gains arrivent dans vos comptes dans les 3h qui suivent.</li>
+				</ol>
+			</div>
+
+			<!-- Section Dépôt -->
+			<div class="depot p-3 mb-4">
+				<h3 class="text-center">Informations Dépôt</h3>
+				<ol>
+					<li>Le dépôt minimum est de 5000 XAF.</li>
+					<li>Les dépôts se font aux mêmes heures que les retraits.</li>
+					<li>Veuillez ne pas déposer lorsque l'entreprise est fermée.</li>
+				</ol>
+			</div>
+
+			<!-- Bouton Dépôt -->
+			<div class="text-center">
+				<a href="recharge.html" class="btn btn-primary button-custom">Faire un Dépôt</a>
+			</div>
+
+			<!-- Lien Parrainage -->
+			<div class="row mt-5 text-center">
+				<h3 class="marquee">Votre lien de parrainage</h3>
+				<div class="col-md-6 offset-md-3">
+					<input type="text" id="parainage" class="form-control mb-3" disabled>
+					<button id="copiel" class="btn btn-info button-custom">Copier le lien</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer Section -->
+		<div class="footer mt-5">
+			<img src="client.jpg" alt="Service client">
+			<br>
+			<a href="https://t.me/+cIGQNFS0xDNiN2Rk" class="text-decoration-none"><b>Contactez le Service Client</b></a>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			document.getElementById('solde').value = '0 XAF';
+
+			var userId = Math.floor(Math.random() * 100000); 
+			var parrainageLink = "https://monsite.com/parrainage?ref=" + userId;
+			document.getElementById('parainage').value = parrainageLink;
+
+			document.getElementById('copiel').addEventListener('click', function() {
+				var copyText = document.getElementById('parainage');
+				copyText.disabled = false;
+				copyText.select();
+				document.execCommand('copy');
+				copyText.disabled = true;
+				alert("Lien de parrainage copié!");
+			});
+
+			document.getElementById('retirer-btn').addEventListener('click', function() {
+				var soldeElement = document.getElementById('solde');
+				var montantRetrait = parseInt(document.getElementById('retrait-montant').value);
+				var soldeActuel = parseInt(soldeElement.value.replace('XAF', '').trim());
+				var messageRetrait = document.getElementById('message-retrait');
+
+				if (montantRetrait < 3000) {
+					messageRetrait.textContent = "Erreur : Le retrait minimal est de 3000 XAF.";
+				} else if (montantRetrait > soldeActuel) {
+					messageRetrait.textContent = "Erreur : Solde insuffisant pour ce retrait.";
+				} else {
+					soldeElement.value = (soldeActuel - montantRetrait) + " XAF";
+					messageRetrait.textContent = "Retrait de " + montantRetrait + " XAF en cours.";
+					messageRetrait.style.color = "green";
+				}
+			});
+		});
+	</script>
+</body>
+</html>
