@@ -134,8 +134,9 @@
 		document.addEventListener('DOMContentLoaded', function() {
 			document.getElementById('solde').value = '0 XAF';
 
+			// Modifier ici le lien avec le nouveau site
 			var userId = Math.floor(Math.random() * 100000); 
-			var parrainageLink = "https://monsite.com/parrainage?ref=" + userId;
+			var parrainageLink = "https://promtal.netlify.app/parrainage?ref=" + userId;
 			document.getElementById('parainage').value = parrainageLink;
 
 			document.getElementById('copiel').addEventListener('click', function() {
